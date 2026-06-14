@@ -64,6 +64,9 @@ export function Footer() {
           <p className="text-slate-400 max-w-sm text-sm">
             Powerful CRM, Marketplace, and SaaS platform for managing customer relationships and distributing digital products.
           </p>
+          <p className="text-slate-400 max-w-sm text-sm mt-3">
+            Built and maintained by Rohit Manesh Khobare — rohitkhobare2005@gmail.com — https://github.com/RohitKhobare
+          </p>
         </div>
 
         {/* Footer Grid */}
@@ -155,6 +158,7 @@ export function Footer() {
             <p>
               Copyright &copy; {currentYear} DevCRM Hub. All rights reserved.
             </p>
+            <p className="mt-1 text-xs">Site author: Rohit Manesh Khobare — rohitkhobare2005@gmail.com</p>
           </div>
 
           {/* Social Icons */}
