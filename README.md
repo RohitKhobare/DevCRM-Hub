@@ -29,16 +29,16 @@ DevCRM Hub is a starter CRM + marketplace application combining a Spring Boot ba
 ## Tools & Libraries
 
 - Backend
-	- Spring Boot 3.2.x
-	- Spring Data JPA, Spring Security
-	- HikariCP, Hibernate ORM
-	- Razorpay Java client (payment integration)
-	- H2 (dev runtime)
+  - Spring Boot 3.2.x
+  - Spring Data JPA, Spring Security
+  - HikariCP, Hibernate ORM
+  - Razorpay Java client (payment integration)
+  - H2 (dev runtime)
 - Frontend
-	- React 18+, TypeScript
-	- Vite (dev server & build)
-	- Tailwind CSS
-	- lucide-react (icons)
+  - React 18+, TypeScript
+  - Vite (dev server & build)
+  - Tailwind CSS
+  - lucide-react (icons)
 
 ## System Requirements
 
@@ -52,7 +52,7 @@ DevCRM Hub is a starter CRM + marketplace application combining a Spring Boot ba
 
 ## Local Development (Windows PowerShell examples)
 
-1) Start the backend locally (H2 in-memory for quick runs):
+1. Start the backend locally (H2 in-memory for quick runs):
 
 ```powershell
 cd backend
@@ -68,7 +68,7 @@ java -jar target/backend-0.0.1-SNAPSHOT.jar
 # backend listens on port 8081 by default (see application.properties)
 ```
 
-2) Run the frontend dev server (from repo root):
+2. Run the frontend dev server (from repo root):
 
 ```powershell
 npm ci
@@ -76,7 +76,7 @@ npm run dev
 # open http://localhost:5173
 ```
 
-3) API Endpoints
+3. API Endpoints
 
 - Auth: `/api/auth/*`
 - Profile: `/api/profile/*`
@@ -88,7 +88,7 @@ Refer to the controller classes under `backend/src/main/java/com/devcrm/controll
 
 ## Build (Production)
 
-1) Backend (create executable JAR):
+1. Backend (create executable JAR):
 
 ```powershell
 cd backend
@@ -96,7 +96,7 @@ mvn -DskipTests clean package
 # artifact: target/backend-0.0.1-SNAPSHOT.jar
 ```
 
-2) Frontend (static build):
+2. Frontend (static build):
 
 ```powershell
 npm ci
@@ -128,6 +128,7 @@ Image names and tags are configured in the script and CI. If you don't have Dock
 - `/.github/workflows/pages.yml` — (added) builds the frontend and publishes it to GitHub Pages.
 
 What CI produces:
+
 - GHCR images for backend and frontend (container images).
 - A static frontend site deployed to GitHub Pages (URL shown in GitHub Pages settings after first successful deployment).
 
@@ -208,4 +209,3 @@ docker run -e SPRING_DATASOURCE_URL='jdbc:postgresql://<db-host>/<db>' -e SPRING
 3. Help you deploy the backend image to a cloud provider (I can prepare an IaC plan or sample commands).
 
 If you want me to proceed with CI monitoring and collecting the deployed links, confirm and I will watch the Actions runs and return the URLs.
-

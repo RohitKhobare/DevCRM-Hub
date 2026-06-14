@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import {
   Facebook,
   Twitter,
@@ -6,44 +6,44 @@ import {
   Github,
   Mail,
   Database,
-} from 'lucide-react';
+} from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const columns = {
     product: [
-      { label: 'Marketplace', href: '/marketplace' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Features', href: '/features' },
-      { label: 'Roadmap', href: '/roadmap' },
+      { label: "Marketplace", href: "/marketplace" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Features", href: "/features" },
+      { label: "Roadmap", href: "/roadmap" },
     ],
     resources: [
-      { label: 'Documentation', href: '/docs' },
-      { label: 'API Reference', href: '/api-docs' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Guides', href: '/guides' },
+      { label: "Documentation", href: "/docs" },
+      { label: "API Reference", href: "/api-docs" },
+      { label: "Blog", href: "/blog" },
+      { label: "Guides", href: "/guides" },
     ],
     company: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Contact', href: '/contact' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Press', href: '/press' },
+      { label: "About Us", href: "/about" },
+      { label: "Contact", href: "/contact" },
+      { label: "Careers", href: "/careers" },
+      { label: "Press", href: "/press" },
     ],
     legal: [
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Cookie Policy', href: '/cookies' },
-      { label: 'Compliance', href: '/compliance' },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Cookie Policy", href: "/cookies" },
+      { label: "Compliance", href: "/compliance" },
     ],
   };
 
   const socialLinks = [
-    { icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Mail, href: 'mailto:hello@devcrm.com', label: 'Email' },
+    { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Github, href: "https://github.com", label: "GitHub" },
+    { icon: Mail, href: "mailto:hello@devcrm.com", label: "Email" },
   ];
 
   return (
@@ -62,10 +62,12 @@ export function Footer() {
             <span>DevCRM Hub</span>
           </Link>
           <p className="text-slate-400 max-w-sm text-sm">
-            Powerful CRM, Marketplace, and SaaS platform for managing customer relationships and distributing digital products.
+            Powerful CRM, Marketplace, and SaaS platform for managing customer
+            relationships and distributing digital products.
           </p>
           <p className="text-slate-400 max-w-sm text-sm mt-3">
-            Built and maintained by Rohit Manesh Khobare — rohitkhobare2005@gmail.com — https://github.com/RohitKhobare
+            Built and maintained by Rohit Manesh Khobare —
+            rohitkhobare2005@gmail.com — https://github.com/RohitKhobare
           </p>
         </div>
 
@@ -158,7 +160,9 @@ export function Footer() {
             <p>
               Copyright &copy; {currentYear} DevCRM Hub. All rights reserved.
             </p>
-            <p className="mt-1 text-xs">Site author: Rohit Manesh Khobare — rohitkhobare2005@gmail.com</p>
+            <p className="mt-1 text-xs">
+              Site author: Rohit Manesh Khobare — rohitkhobare2005@gmail.com
+            </p>
           </div>
 
           {/* Social Icons */}
