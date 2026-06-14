@@ -36,5 +36,6 @@ If `docker` is not installed on your machine, install Docker Desktop (Windows/ma
 CI build (GitHub Actions): trigger the `Build Docker images` workflow in `.github/workflows/docker-build.yml` via the Actions UI or `workflow_dispatch` event.
 
 Notes:
+
 - If you want images pushed to a container registry, update the workflow with credentials and set `push: true` in the Docker build steps.
 - If you prefer a different base image for runtime (e.g., distroless or Microsoft images), update the `backend/Dockerfile` accordingly.
