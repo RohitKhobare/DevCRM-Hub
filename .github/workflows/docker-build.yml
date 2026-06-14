@@ -1,60 +1,102 @@
-name: Build Docker images
+name: Build and push Docker images (CI)
 
 on:
   workflow_dispatch: {}
+  push:
+    branches:
+      - ci
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  # Use GitHub Container Registry by default; can be overridden with secrets
+  REGISTRY: ghcr.io
+  IMAGE_BACKEND: ${{ github.repository_owner }}/crm-backend
+  IMAGE_FRONTEND: ${{ github.repository_owner }}/crm-frontend
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
-    env:
-      REGISTRY: docker.io
-      IMAGE_BACKEND: ${{ github.repository_owner }}/crm-backend
-      IMAGE_FRONTEND: ${{ github.repository_owner }}/crm-frontend
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up Java 25
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-${{ runner.os }}-
+
+      - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '25'
+          distribution: temurin
+          java-version: "21"
 
       - name: Build backend JAR
         working-directory: backend
-        run: mvn -B -DskipTests package
+        run: mvn -B -DskipTests clean package
 
-      - name: Build backend Docker image
-        uses: docker/build-push-action@v4
+      - name: Cache Node modules
+        uses: actions/cache@v4
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          platforms: linux/amd64
-          push: ${{ secrets.DOCKER_USERNAME && secrets.DOCKER_PASSWORD && 'true' || 'false' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_BACKEND }}:ci,${{ env.REGISTRY }}/${{ env.IMAGE_BACKEND }}:${{ github.sha }}
+          path: ~/.npm
+          key: node-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            node-${{ runner.os }}-
 
       - name: Set up Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Build frontend
         run: |
           npm ci
           npm run build
 
-      - name: Build frontend Docker image
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_BACKEND }}:ci
+            ${{ env.REGISTRY }}/${{ env.IMAGE_BACKEND }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build & push frontend image
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64
-          push: ${{ secrets.DOCKER_USERNAME && secrets.DOCKER_PASSWORD && 'true' || 'false' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND }}:ci,${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND }}:${{ github.sha }}
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND }}:ci
+            ${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Login to registry (if credentials provided)
-        if: ${{ secrets.DOCKER_USERNAME && secrets.DOCKER_PASSWORD }}
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Success summary
+        run: |
+          echo "Backend image: ${{ env.REGISTRY }}/${{ env.IMAGE_BACKEND }}:ci"
+          echo "Frontend image: ${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND }}:ci"
